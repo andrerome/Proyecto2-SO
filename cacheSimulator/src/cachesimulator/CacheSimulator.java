@@ -1,32 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cachesimulator;
 
 import algorithms.LRU;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Andres
- */
 public class CacheSimulator {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         if(args.length==3){
-            
             System.out.println("File: "+args[0]);
             System.out.println("Policy: "+args[1]);
             System.out.println("Cache size: "+args[2]);
@@ -46,52 +32,49 @@ public class CacheSimulator {
                     System.out.println(args[1]+" no es una política de desalojo de caché válida!");
                     break;
             }
-
-        }else{
+        } else {
             System.out.println("Ejecutar por línea de comando con los siguientes argumentos:");
             System.out.println("<workload_file> <policy> <cache size>");
             System.out.println("Ejemplo: $java cacheSimulator workload.txt LRU 50000");
         }
-   
     }
     
-    public static void LRUcache(String filename, int entrys){
-        File file=null;
-        FileReader reader=null;
-        BufferedReader buffer=null;
+    public static void LRUcache(String filename, int entries) {
+        File file = null;
+        FileReader reader = null;
+        BufferedReader buffer = null;
         //Se podría usar clase Scanner.java para probar eficiencia en la lectura.
-        LRU lru=new LRU(entrys);
+        
+        LRU lru = new LRU(entries);
         DecimalFormat df = new DecimalFormat("0.00");
-        float hitrate=0;
-        try{
-           file=new File(filename);
-           reader=new FileReader(file);
-           buffer=new BufferedReader(reader);
-           
-           String line;
-           while((line=buffer.readLine())!=null){
-            String filedata = (String)lru.get(line);
-                if (filedata == null){
-                    lru.put(line,filedata);
-                }  
+        float hitrate = 0;
+        
+        try {
+            file = new File(filename);
+            reader = new FileReader(file);
+            buffer = new BufferedReader(reader);
+
+            String line;
+            while ((line=buffer.readLine()) != null) {
+                String filedata = (String) lru.get(line);
+                if (filedata == null) {
+                    lru.put(line, filedata);
+                }
             }
+            
             hitrate=(float)lru.getHits()*100/lru.getLines();
             System.out.println("Resultados:");
             System.out.println("\tMiss rate:              "+df.format(100-hitrate)+"% ( "+(lru.getLines()-lru.getHits())+" misses out of Q references)");
             System.out.println("\tHit rate (warm cache):  "+df.format(hitrate)+"% ( "+lru.getHits()+" hits out of Q-(cache size) references)");
-              
-        }
-        catch(Exception e){
-           System.out.println("Error al leer el archivo: "+e.getMessage());
-        }finally{
+        } catch(Exception e) {
+            System.out.println("Error al leer el archivo: "+e.getMessage());
+        } finally {
             try {
-                if(reader!=null)   
-                   reader.close();
+                if(reader!=null)
+                    reader.close();
             } catch (Exception ex) {
                 System.out.println("Error al cerrar el archivo: "+ex.getMessage());
             }
         }
     }
-   
-    
 }
