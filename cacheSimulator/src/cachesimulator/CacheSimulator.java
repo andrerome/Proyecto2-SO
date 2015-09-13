@@ -1,5 +1,6 @@
 package cachesimulator;
 
+import algorithms.CLOCK;
 import algorithms.CachePRPolicy;
 import algorithms.LRU;
 import algorithms.OPT;
@@ -37,6 +38,7 @@ public class CacheSimulator {
                     policy = new OPT(cacheSize, file);
                     break;
                 case "CLOCK":
+                    policy = new CLOCK(cacheSize);
                     break;
                 case "VARIANTE":
                     break;
