@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 /**
  * @author Andres
  */
-public class LRU extends LinkedHashMap{
+public class LRU extends LinkedHashMap <String, Object> implements CachePRPolicy <String, Object> {
 
   private int entries;
   private int lines=0;
@@ -16,29 +16,45 @@ public class LRU extends LinkedHashMap{
     super(entries, 0.75f, true);
     this.entries = entries;
   }
-
-  public Object get(Object key){
+  
+  @Override
+  public Object retrieve(String key){
     lines++;
-    if(containsKey(key)){
+    if(super.containsKey(key)){
       hits++;
     }
-    Object value=super.get(key);
-    return value;
+    
+    return super.get(key);
+  }
+  
+  @Override
+  public void store(String key, Object data) {
+      super.put(key, data);
   }
 
+  @Override
   protected boolean removeEldestEntry(Entry eldest){
-    return (size()>entries);
+    return (super.size()>entries);
   }
-
-    public int getEntrys() {
+    
+    @Override
+    public int getMaxEntries() {
         return entries;
     }
-
-    public int getHits() {
-        return hits;
+    
+    @Override
+    public int getMisses(boolean warm) {
+        if (warm)
+            return 1; // TODO: Implementar warm
+        else
+            return lines - hits;
     }
-
-    public int getLines() {
-        return lines;
-    }   
+    
+    @Override
+    public int getLookups(boolean warm) {
+        if (warm)
+            return 1; // TODO: Implementar warm
+        else
+            return lines;
+    }
 }
