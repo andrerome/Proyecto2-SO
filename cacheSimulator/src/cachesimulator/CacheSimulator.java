@@ -27,8 +27,8 @@ public class CacheSimulator {
             
             /*System.out.println("File: "+file);
             System.out.println("Policy: "+policy);
-            System.out.println("Cache size: "+cacheSize);
-            System.out.println("Evaluando una caché "+policy+" con "+cacheSize+" entradas...");*/
+            System.out.println("Cache size: "+cacheSize);*/
+            System.out.println("Evaluando una caché "+policyType+" con "+cacheSize+" entradas...");
             
             switch (policyType) {
                 case "LRU":
