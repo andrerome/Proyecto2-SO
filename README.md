@@ -9,7 +9,7 @@ ant clean
 
 ant jar
 
-Ejecutar: java -jar RSS.jar
+Ejecutar: java -jar workload.txt ALGORITMO 600000
 
 
 Para el algoritmo óptimo, de preferencia darle 1GB de memoria: -Xmx1024m
