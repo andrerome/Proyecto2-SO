@@ -53,8 +53,7 @@ public class LRU2 implements CachePRPolicy <String, Object> {
           page2.ultimate = lookups;
           page2.referencedTwice = true;
       }
-      
-      
+            
       return page.getData();
     }
 
@@ -65,9 +64,9 @@ public class LRU2 implements CachePRPolicy <String, Object> {
         
         if(this.curr_entries < this.max_entries) {
             this.map.put(key,nuevo);
-            this.map2.put(key,nuevo);
-        } else {
-            
+            this.map2.put(key,nuevo);            
+            this.curr_entries++;
+        } else {            
             if (curr_entries == max_entries) { // Frames llenos
                 warming = false;
             }
@@ -85,18 +84,22 @@ public class LRU2 implements CachePRPolicy <String, Object> {
                             toDelete = item;
                         }
                     }
-                }                               
+                }  else {
+                    
+                }                             
             }
             
-             map.remove(toDelete.key);
-             map.put(key, nuevo);
+            if(toDelete!=null) {
+                 map.remove(toDelete.key);
+                 map.put(key, nuevo);
              
-             LRUPage toEdit = map2.get(key);
+                LRUPage toEdit = map2.get(key);
              
-             if(toEdit!= null) {
-                 toEdit.penultimate = toEdit.ultimate;
-                 toEdit.ultimate = lookups;
-             }
+                if(toEdit!= null) {
+                    toEdit.penultimate = toEdit.ultimate;
+                    toEdit.ultimate = lookups;
+                }                 
+            }                        
              
         }                    
     }
