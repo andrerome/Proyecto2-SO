@@ -4,6 +4,7 @@ import algorithms.CLOCK;
 import algorithms.CachePRPolicy;
 import algorithms.LRU;
 import algorithms.OPT;
+import algorithms.LRU2;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,6 +42,7 @@ public class CacheSimulator {
                     policy = new CLOCK(cacheSize);
                     break;
                 case "VARIANTE":
+                    policy = new LRU2(cacheSize);
                     break;
                 default:
                     System.out.println(policyType+" no es una política de desalojo de caché válida!");
