@@ -67,6 +67,11 @@ public class LRU2 implements CachePRPolicy <String, Object> {
             this.map.put(key,nuevo);
             this.map2.put(key,nuevo);
         } else {
+            
+            if (curr_entries == max_entries) { // Frames llenos
+                warming = false;
+            }
+            
             LRUPage toDelete = null;
             
             for (String col : map.keySet()) {
